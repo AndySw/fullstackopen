@@ -1,5 +1,5 @@
 # fullstackopen
 
-TO-DO
-- part0\ex5
-- part0\ex6
+Coursework for the Open Full Stack course offered by the University of Helsinki.
+
+https://fullstackopen.com/en/
