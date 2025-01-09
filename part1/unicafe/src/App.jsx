@@ -20,7 +20,7 @@ const Statistics = ({ scoreCounts }) => {
 
   const getPositivePercent = () => {
     const positivePercent = (goodCount / total) * 100
-    const result = Number.isNaN(positivePercent) ? '' : '%' + positivePercent.toFixed(2)
+    const result = Number.isNaN(positivePercent) ? '' : positivePercent.toFixed(2) + '%'
     return result
   }
   
