@@ -24,28 +24,26 @@ const Statistics = ({ scoreCounts }) => {
   
   if (total !== 0) {
     return (
-      <div>
-        <h1>Statistics</h1>
-        <StatisticsLine text='Good' value={goodCount} />
-        <StatisticsLine text='Neutral' value={neutralCount} />
-        <StatisticsLine text='Bad' value={badCount} />
-        <StatisticsLine text='All' value={total} />
-        <StatisticsLine text='Average' value={getAverageScore()} />
-        <StatisticsLine text='Positive' value={getPositivePercent()} />
-      </div>
+      <table>
+        <tbody>
+          <StatisticsLine text='Good' value={goodCount} />
+          <StatisticsLine text='Neutral' value={neutralCount} />
+          <StatisticsLine text='Bad' value={badCount} />
+          <StatisticsLine text='All' value={total} />
+          <StatisticsLine text='Average' value={getAverageScore()} />
+          <StatisticsLine text='Positive' value={getPositivePercent()} />
+        </tbody>
+      </table>
     )
   } else {
     return (
-      <div>
-        <h1>Statistics</h1>
-        <p>No feedback given</p>
-      </div>
+      <p>No feedback given</p>
     )
   }
 }
 
 const StatisticsLine = ({ text, value }) => {
-  return (<p>{text}: {value}</p>)
+  return (<tr><td>{text}:</td><td>{value}</td></tr>)
 }
 
 const App = () => {
@@ -72,6 +70,7 @@ const App = () => {
       <Button onClick={handleGoodOnClick} text='Good' />
       <Button onClick={handleNeutralOnClick} text='Neutral' />
       <Button onClick={handleBadOnClick} text='Bad' />
+      <h1>Statistics</h1>
       <Statistics scoreCounts={[good, neutral, bad]} />
     </div>
   )
