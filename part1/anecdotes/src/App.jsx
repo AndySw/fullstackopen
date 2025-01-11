@@ -8,8 +8,6 @@ const Button = ({ onClick, text }) => {
 
 const App = () => {
   
-  const [selected, setSelected] = useState(0)
-
   const anecdotes = [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
@@ -20,16 +18,37 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
+
+  const initialVotes = Array(anecdotes.length).fill(0)
+  const [votes, setVotes] = useState(initialVotes)
+  const [selected, setSelected] = useState(0)
   
   const getRandomInt = () => {
       const max = anecdotes.length - 1
       return Math.floor(Math.random() * max);
   }
 
+  const handleVoteOnClick = (selectedIndex) => {
+    
+    const newVotes = votes.map((oldVal, idx) => {
+
+      if (idx === selectedIndex) {
+        const newVal = oldVal + 1
+        return newVal
+      } else {
+        return oldVal
+      }
+    })
+
+    setVotes(newVotes)
+  }
+
   return (
     <div>
       <p>{anecdotes[selected]}</p>
-      <Button onClick={() => setSelected(getRandomInt())} text='Next Anecdote'></Button>
+      <p>has {votes[selected]} votes</p>
+      <Button onClick={() => handleVoteOnClick(selected)} text='Vote' />
+      <Button onClick={() => setSelected(getRandomInt())} text='Next Anecdote' />
     </div>
   )
 }
