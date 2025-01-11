@@ -43,12 +43,25 @@ const App = () => {
     setVotes(newVotes)
   }
 
+  const getIndexOfTopVotedAnecdote = () => 
+    votes.reduce((maxIndex, current, i, arr) => current > arr[maxIndex] ? i : maxIndex, 0)
+  
+  const getAnecdoteWithMostVotes = () => 
+    anecdotes[getIndexOfTopVotedAnecdote()]
+  
+  const getVotesOfAnecdoteWithMostVotes = () => 
+    votes[getIndexOfTopVotedAnecdote()]
+
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{anecdotes[selected]}</p>
       <p>has {votes[selected]} votes</p>
       <Button onClick={() => handleVoteOnClick(selected)} text='Vote' />
       <Button onClick={() => setSelected(getRandomInt())} text='Next Anecdote' />
+      <h1>Anecdote with most votes</h1>
+      <p>{getAnecdoteWithMostVotes()}</p>
+      <p>has {getVotesOfAnecdoteWithMostVotes()} votes</p>
     </div>
   )
 }
