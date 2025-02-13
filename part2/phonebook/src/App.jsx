@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 function App() {
 
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas', number: '040-1234567'}])
+  const [persons, setPersons] = useState([{ name: 'Arto Hellas', number: '040-1234567', key: 1}])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
 
@@ -35,6 +35,8 @@ function App() {
   return (
     <div>
       <h2>Phonebook</h2>
+
+
       <form>
         <div>
           name: <input value={newName} onChange={e => setNewName(e.target.value)} />
@@ -49,7 +51,7 @@ function App() {
       <h2>Numbers</h2>
       
       {persons.map(person => (
-        <div>
+        <div key={person.key}>
           {person.name} {person.number}
         </div>
       ))}
