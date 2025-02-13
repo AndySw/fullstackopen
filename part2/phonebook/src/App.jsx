@@ -7,14 +7,27 @@ function App() {
 
   const addPerson = (event) => {
     event.preventDefault()
-    const personArray = [{
+    
+    const newPerson = {
       name: newName
-    }]
+    }
 
-    console.log(personArray)
+    if(personExistsInArray(persons, newPerson)) {
+      showPersonExistsAlert(newPerson)
+      return
+    }
 
-    setPersons(persons.concat(personArray))
+    setPersons(persons.concat([newPerson]))
+  }
 
+  const personExistsInArray = (personArray, personToCheck) => {
+    return personArray.some(existingPerson => 
+      JSON.stringify(personToCheck) === JSON.stringify(existingPerson)
+    )
+  }
+
+  const showPersonExistsAlert = (newPerson) => {
+    alert(`${newPerson.name} is already added to phonebook`)
   }
 
   return (
