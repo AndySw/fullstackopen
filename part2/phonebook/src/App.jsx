@@ -2,14 +2,16 @@ import { useState } from 'react'
 
 function App() {
 
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas'}])
+  const [persons, setPersons] = useState([{ name: 'Arto Hellas', number: '040-1234567'}])
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
   const addPerson = (event) => {
     event.preventDefault()
     
     const newPerson = {
-      name: newName
+      name: newName,
+      number: newNumber
     }
 
     if(personExistsInArray(persons, newPerson)) {
@@ -38,13 +40,18 @@ function App() {
           name: <input value={newName} onChange={e => setNewName(e.target.value)} />
         </div>
         <div>
+          number: <input value={newNumber} onChange={e => setNewNumber(e.target.value)} />
+        </div>
+        <div>
           <button type="submit" onClick={addPerson}>add</button>
         </div>
       </form>
       <h2>Numbers</h2>
       
       {persons.map(person => (
-        <div>{person.name}</div>
+        <div>
+          {person.name} {person.number}
+        </div>
       ))}
 
     </div>
