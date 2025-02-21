@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import axios from 'axios'
+import personService from './services/person'
 
 function App() {
 
@@ -12,15 +13,11 @@ function App() {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
 
-  const hook = () => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
-  }
-
-  useEffect(hook, [])
+  useEffect(() => {
+    personService.getAll().then(persons => {
+      setPersons(persons)
+    })
+  }, [])
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -32,7 +29,7 @@ function App() {
     const newPerson = {
       name: newName,
       number: newNumber,
-      id: lastId + 1
+      id: Number(lastId + 1)
     }
 
     if (personExistsInArray(persons, newPerson)) {
@@ -40,7 +37,9 @@ function App() {
       return
     }
 
-    setPersons(persons.concat([newPerson]))
+    personService.create(newPerson).then(newPerson => {
+      setPersons(persons.concat([newPerson]))
+    })
   }
 
   const personExistsInArray = (personArray, personToCheck) => {
