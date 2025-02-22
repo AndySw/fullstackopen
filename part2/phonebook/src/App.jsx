@@ -30,30 +30,46 @@ function App() {
       id: String(Number(lastId) + 1)
     }
 
-    if (personExistsInArray(persons, newPerson)) {
+    if (hasSameNameAndNumber(persons, newPerson)) {
       showPersonExistsAlert(newPerson)
       return
     }
 
-    personService.create(newPerson).then(newPerson => {
-      setPersons(persons.concat([newPerson]))
-    })
+    const found = getPersonWithNewNumber(persons, newPerson)
+
+    if ((found) && confirmNumberReplacement(newPerson)) {
+      personService
+        .update(found.id, newPerson)
+        .then(newPerson => {
+          const truncatedPersons = persons.filter(p => p.id !== found.id)
+          setPersons(truncatedPersons.concat([newPerson]))
+        })
+    } else {
+      personService
+        .create(newPerson)
+        .then(newPerson => setPersons(persons.concat([newPerson])))
+    }
   }
 
-  const personExistsInArray = (personArray, personToCheck) => {
+  const getPersonWithNewNumber = (persons, newPerson) =>
+    persons.find((person) => (person.name === newPerson.name) && (person.number !== newPerson.number))
+
+  const hasSameNameAndNumber = (personArray, personToCheck) => {
     return personArray.some(existingPerson =>
       (personToCheck.name === existingPerson.name)
       && (personToCheck.number === existingPerson.number)
     )
   }
 
-  const showPersonExistsAlert = (newPerson) => {
+  const showPersonExistsAlert = (newPerson) =>
     alert(`${newPerson.name} is already added to phonebook`)
-  }
+
+  const confirmNumberReplacement = (newPerson) =>
+    window.confirm(`${newPerson.name} is already added to phonebook, replace the old number with a new one?`)
 
   const removePerson = (personToRemove) => {
     if (window.confirm(`Delete ${personToRemove.name}?`)) {
-      
+
       personService.remove(personToRemove.id).then(() => {
         const truncatedPersons = persons.filter(p => p.id !== personToRemove.id)
         setPersons(truncatedPersons)
