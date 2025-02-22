@@ -2,13 +2,11 @@ import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
-import axios from 'axios'
 import personService from './services/person'
 
 function App() {
 
   const [persons, setPersons] = useState([])
-
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
@@ -29,7 +27,7 @@ function App() {
     const newPerson = {
       name: newName,
       number: newNumber,
-      id: Number(lastId + 1)
+      id: String(Number(lastId) + 1)
     }
 
     if (personExistsInArray(persons, newPerson)) {
@@ -53,6 +51,17 @@ function App() {
     alert(`${newPerson.name} is already added to phonebook`)
   }
 
+  const removePerson = (personToRemove) => {
+    if (window.confirm(`Delete ${personToRemove.name}?`)) {
+      
+      personService.remove(personToRemove.id).then(() => {
+        const truncatedPersons = persons.filter(p => p.id !== personToRemove.id)
+        setPersons(truncatedPersons)
+      })
+
+    }
+  }
+
   return (
     <div>
 
@@ -71,7 +80,7 @@ function App() {
 
       <h2>Numbers</h2>
 
-      <Persons persons={persons} filter={filter} />
+      <Persons persons={persons} filter={filter} removePersonHandler={(personToRemove) => removePerson(personToRemove)} />
 
     </div>
   )

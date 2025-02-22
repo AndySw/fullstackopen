@@ -1,7 +1,7 @@
-function Person (props) {
+function Person(props) {
     return (
         <div key={props.id}>
-            {props.name} {props.number}
+            {props.name} {props.number} <button onClick={props.removePersonHandler}>delete</button>
         </div>
     )
 }

@@ -5,7 +5,10 @@ function Persons (props) {
         <div>
         {props.persons.filter(person => person.name.toLowerCase().includes(props.filter.toLowerCase()))
             .map(person => (
-                  <Person key={person.id} name={person.name} number={person.number} />
+                  <Person key={person.id} 
+                          name={person.name} 
+                          number={person.number} 
+                          removePersonHandler={() => props.removePersonHandler(person)} />
                   )
                 )
         }
